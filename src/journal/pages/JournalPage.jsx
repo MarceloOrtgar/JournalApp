@@ -1,12 +1,17 @@
-import { MailOutline } from "@mui/icons-material"
-import { Typography } from "@mui/material"
+import { Typography } from "@mui/material";
+import { JournalLayout } from "../layout/JournalLayout";
 
 
 export const JournalPage = () => {
   return (
-    <>
-    <Typography variant='h1'>JournalPage</Typography>
-    <MailOutline/>
-    </>
-  )
-}
+  <JournalLayout>
+      <Typography>
+       HOLA soy marcelo eugenio ortega rengifo y estoy aprendiendo
+
+      </Typography>
+
+      {/* NothingSelected */}
+      {/* NoteView */}
+</JournalLayout>
+  );
+};
