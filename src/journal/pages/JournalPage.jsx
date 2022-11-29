@@ -6,7 +6,7 @@ export const JournalPage = () => {
   return (
   <JournalLayout>
       <Typography>
-       HOLA soy marcelo eugenio ortega rengifo y estoy aprendiendo
+       Esto es una prueba
 
       </Typography>
 
