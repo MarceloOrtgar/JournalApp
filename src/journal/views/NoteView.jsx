@@ -1,8 +1,36 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { SaveOutlined } from "@mui/icons-material";
 import { ImageGallery } from "../components";
+import { useForm } from "../../hooks/useForm";
+import { useSelector,useDispatch } from "react-redux";
+import { useEffect, useMemo } from "react";
+import { setActiveNote } from "../../store/journal/journalSlice";
+import { startSaveNote } from "../../store/journal/thunks";
 
 export const NoteView = () => {
+
+  const dispatch=useDispatch();
+
+  const { active: note } = useSelector((state) => state.journal);
+
+  const { body, title, onInputChange, formState, date } = useForm(note);
+
+  const dateString = useMemo(() => {
+    const newDate = new Date(date);
+
+    return newDate.toUTCString();
+  }, [date])
+
+  useEffect(() => {
+    dispatch(setActiveNote(formState))
+
+  }, [formState])
+
+
+  const onSaveNote=()=>{
+    dispatch(startSaveNote());
+  }
+
   return (
     <Grid
       container
@@ -10,15 +38,15 @@ export const NoteView = () => {
       justifyContent="space-between"
       alignItems="center"
       sx={{ mb: 1 }}
-      className='animate__animated animate__fadeIn animate__faster'
+      className="animate__animated animate__fadeIn animate__faster"
     >
       <Grid item>
         <Typography fontSize={39} fontWeight="light">
-          28 de agosto, 2023
+          {dateString}
         </Typography>
       </Grid>
       <Grid item>
-        <Button color="primary" sx={{ padding: 2 }}>
+        <Button color="primary" sx={{ padding: 2 }} onClick={onSaveNote}>
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Guardar
         </Button>
@@ -31,6 +59,9 @@ export const NoteView = () => {
           placeholder="Ingrese un titulo"
           label="Título"
           sx={{ border: "none", mb: 1 }}
+          name="title"
+          value={title}
+          onChange={onInputChange}
         ></TextField>
         <TextField
           type="text"
@@ -39,10 +70,13 @@ export const NoteView = () => {
           multiline
           placeholder="¿Qué sucedió hoy?"
           minRows={5}
+          name="body"
+          value={body}
+          onChange={onInputChange}
         ></TextField>
       </Grid>
 
-      <ImageGallery/>
+      <ImageGallery />
     </Grid>
   );
 };
